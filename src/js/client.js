@@ -1,108 +1,31 @@
-import expect from 'expect';
-import { createStore } from 'redux';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Immutable from 'immutable';
+const state = {
+    game : [0, 1, 2],
+};
 
-// Javascript the good parts
+const render = btnState => {
 
-const Counter = ({ value, incrementAction, decrementAction, removeAction }) => (
-  <div>
-    <h1>{ value }</h1>
-    <button onClick={ incrementAction }>+</button>
-    <button onClick={ decrementAction }>-</button>
-    <button onClick={ removeAction }>x</button>
-  </div>
-);
-
-const CounterList = ({ list }) => (
-  <div>
-    {
-      list.map(
-        (value, i) => (
-          <Counter
-            key={ i }
-            value={ value }
-            index={ i }
-            incrementAction={
-              () => store.dispatch({
-                type: 'INCREMENT',
-                payload: { index: i }
-              })
-            }
-            decrementAction={
-              () => store.dispatch({
-                type: 'DECREMENT',
-                payload: { index: i }
-              })
-            }
-            removeAction={
-              () => store.dispatch({
-                type: 'REMOVE_COUNTER',
-                payload: {
-                  index: i
-                }
-              })
-            }
-          />
-        )
-      )
+    if ((root.hasChildNodes())){
+        root.innerHTML = null;
     }
-    <button onClick={ () => store.dispatch({ type: 'ADD_COUNTER' }) }>Add counter</button>
-  </div>
-);
+    const title = document.createElement('h1');
+    title.innerHTML = 'TOTITO';
+    root.appendChild(title);
 
-const validateIndex = (index, list) => 0 <= index && index < list.size;
+    const grid1 = document.createElement('div');
+    grid1.className = 'prueba';
+    
 
-// Reducer
-const counterList = (state = Immutable.List.of(), action) => {
+    const btn1 = document.createElement('button');
+    btn1.className = 'botones';
+    btn1.innerHTML = 'HAI';
+    grid1.appendChild(btn1);
 
-  if(typeof action.payload !== 'undefined'){
-    var { index } = action.payload;
-  }
+    const btn2 = document.createElement('button');
+    btn2.className = 'botones';
+    btn2.innerHTML = 'HAI';
+    grid1.appendChild(btn2);
 
-  switch(action.type){
-    case 'ADD_COUNTER':
-      return state.push(0);
+    root.appendChild(grid1);
+};
 
-    case 'REMOVE_COUNTER':
-
-      if(validateIndex(index, state)){
-        return state.delete(index);
-      }
-
-      return state;
-
-    case 'INCREMENT':
-
-      if(validateIndex(index, state)){
-        return state.update(index, (v) => v + 1);
-      }
-
-      return state;
-
-    case 'DECREMENT':
-
-      if(validateIndex(index, state)){
-        return state.update(index,  (v) => v - 1);
-      }
-
-      return state;
-
-    default:
-      return state;
-  }
-}
-
-// createStore: reducer --> store
-const store = createStore(counterList);
-
-const render = () => {
-  ReactDOM.render(
-    <CounterList list={ store.getState() } />,
-    document.getElementById('root')
-  )
-}
-
-store.subscribe(render);
-render();
+render(state);
