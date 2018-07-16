@@ -89,6 +89,12 @@ const render = btnState => {
         btn.disabled = true;
       }
 
+      if (btnState.gano === 1) {
+        btn.classList.add('pressed');
+        btn.innerHTML = '<img src = "assets/O.png">';
+        btn.disabled = true;
+      }
+
       id++;
 
       btn.onclick = (self) => {
@@ -110,10 +116,10 @@ const render = btnState => {
         if (btnState.game[0] === btnState.game[1] && btnState.game[2] == btnState.game[0] && (btnState.game[0] + btnState.game[1] + btnState.game[2])<4)
             btnState.gano = 1;
         
-        if (btnState.game[3] === btnState.game[4] && btnState.game[2] == btnState.game[3] && (btnState.game[0] + btnState.game[1] + btnState.game[2])<4)
+        if (btnState.game[3] === btnState.game[4] && btnState.game[5] == btnState.game[3] && (btnState.game[3] + btnState.game[4] + btnState.game[5])<4)
             btnState.gano = 1;
         
-        if (btnState.game[6] === btnState.game[7] && btnState.game[8] == btnState.game[6] && (btnState.game[0] + btnState.game[1] + btnState.game[2])<4)
+        if (btnState.game[6] === btnState.game[7] && btnState.game[8] == btnState.game[6] && (btnState.game[6] + btnState.game[7] + btnState.game[8])<4)
             btnState.gano = 1;
 
         if (btnState.game[0] === btnState.game[4] && btnState.game[0] == btnState.game[8] && (btnState.game[0] + btnState.game[4] + btnState.game[8])<4)
@@ -126,6 +132,8 @@ const render = btnState => {
             btnState.turno = (btnState.turno + 1) % 2;
         }
         render(btnState);
+
+        console.log(btn.game);
       };
 
       return btn;
