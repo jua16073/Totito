@@ -1,6 +1,7 @@
 const state = {
-  game: [2, 2, 2, 2, 2, 2, 2, 2, 2],
+  game: [3, 3, 3, 3, 3, 3, 3, 3, 3],
   turno: 0,
+  gano: 0,
 };
 
 const render = btnState => {
@@ -42,13 +43,16 @@ const render = btnState => {
   const texto = document.createElement('p');
   texto.className = 'texto';
   texto.innerHTML = 'Turno de';
+  if(btnState.gano == 1){
+    texto.innerHTML = 'Gano: '
+}
   divf.appendChild(texto);
 
   const image = document.createElement('img');
   image.className = 'img';
 
 
-  // ifs para 
+  // ifs para saber a que jugador le toca
   if(btnState.turno == 0){
       image.innerHTML = '<img src = "assets/X.png">';
   }
@@ -59,11 +63,13 @@ const render = btnState => {
 
   divf.appendChild(image);
 
+  //  Boton de reinicio
   const redo = document.createElement('button');
   redo.className = 'button';
   redo.innerHTML = 'REINICIO';
   divf.appendChild(redo);
 
+  // Cada boton en las filas y lo que hacen cuando se usan
   let id = 0;
   const btns = btnState.game.map(
     (position, i) => {
@@ -88,6 +94,37 @@ const render = btnState => {
       btn.onclick = (self) => {
         btnState.game[btn.id] = (btnState.turno + 1) % 2;
         btnState.turno = (btnState.turno + 1) % 2;
+
+        let cont = 0;
+        if (btnState.game[btn.id] === btnState.game[(btn.id-3) % 9]){
+            cont++;
+            if (btnState.game[btn.id] === btnState.game[(btn.id-6) % 9])
+                cont++;
+                else 
+                    cont = 0;
+        }
+
+        if (cont == 2)
+            btnState.gano = 1;
+
+        if (btnState.game[0] === btnState.game[1] && btnState.game[2] == btnState.game[0] && (btnState.game[0] + btnState.game[1] + btnState.game[2])<4)
+            btnState.gano = 1;
+        
+        if (btnState.game[3] === btnState.game[4] && btnState.game[2] == btnState.game[3] && (btnState.game[0] + btnState.game[1] + btnState.game[2])<4)
+            btnState.gano = 1;
+        
+        if (btnState.game[6] === btnState.game[7] && btnState.game[8] == btnState.game[6] && (btnState.game[0] + btnState.game[1] + btnState.game[2])<4)
+            btnState.gano = 1;
+
+        if (btnState.game[0] === btnState.game[4] && btnState.game[0] == btnState.game[8] && (btnState.game[0] + btnState.game[4] + btnState.game[8])<4)
+            btnState.gano = 1;
+        
+        if (btnState.game[2] === btnState.game[4] && btnState.game[2] == btnState.game[6] && (btnState.game[2] + btnState.game[4] + btnState.game[6])<4)
+            btnState.gano = 1;
+
+        if (btnState.gano == 1){
+            btnState.turno = (btnState.turno + 1) % 2;
+        }
         render(btnState);
       };
 
@@ -112,9 +149,11 @@ const render = btnState => {
   );
 
   redo.onclick = () => {
-    btnState.game = [2, 2, 2, 2, 2, 2, 2, 2, 2];
+    btnState.game = [3, 3, 3, 3, 3, 3, 3, 3, 3];
+    btnState.gano = 0;
     render(btnState);
   }
+
   
 };
 
